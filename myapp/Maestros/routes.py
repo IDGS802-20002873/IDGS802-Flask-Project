@@ -33,11 +33,19 @@ def modificarM():
     create_form=UserForm(request.form)
     if request.method=='GET':
         id=request.args.get('id')
-        maes1=db.session.query(Maestros).filter(Maestros.id==id).first()
-        create_form.id.data=request.args.get('id')
-        create_form.nombre.data=maes1.nombre
-        create_form.apellidos.data=maes1.apellidos
-        create_form.email.data=maes1.email
+        connection=get_connection()
+        with connection.cursor() as cursor:
+            maestros = []
+            cursor.execute('call CONSULTAR_MAESTRO(%s)',(id))
+            resultset = cursor.fetchall()
+            for row in resultset:
+                maestros.append(row)
+        connection.close()
+        for m in maestros:
+            create_form.id.data=m[0]
+            create_form.nombre.data=m[1]
+            create_form.apellidos.data=m[2]
+            create_form.email.data=m[3]
     if request.method=='POST':
         id=create_form.id.data
         maes=db.session.query(Maestros).filter(Maestros.id==id).first()
@@ -57,11 +65,19 @@ def eliminarM():
     create_form=UserForm(request.form)
     if request.method=='GET':
         id=request.args.get('id')
-        maes1=db.session.query(Maestros).filter(Maestros.id==id).first()
-        create_form.id.data=request.args.get('id')
-        create_form.nombre.data=maes1.nombre
-        create_form.apellidos.data=maes1.apellidos
-        create_form.email.data=maes1.email
+        connection=get_connection()
+        with connection.cursor() as cursor:
+            maestros = []
+            cursor.execute('call CONSULTAR_MAESTRO(%s)',(id))
+            resultset = cursor.fetchall()
+            for row in resultset:
+                maestros.append(row)
+        connection.close()
+        for m in maestros:
+            create_form.id.data=m[0]
+            create_form.nombre.data=m[1]
+            create_form.apellidos.data=m[2]
+            create_form.email.data=m[3]
     if request.method=='POST':
         id=create_form.id.data
         maes=db.session.query(Maestros).filter(Maestros.id==id).first()

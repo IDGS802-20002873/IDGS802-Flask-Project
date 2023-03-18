@@ -6,8 +6,8 @@ import forms
 from flask import jsonify
 from config.config import DevelopmentConfig
 from flask_wtf.csrf import CSRFProtect
-from models.models import db
-from config.db import get_connection
+from models.models import db, Alumnos, Maestros
+from config.db import get_connection 
 from Maestros.routes import maestros
 from Alumnos.routes import alumnos
 
